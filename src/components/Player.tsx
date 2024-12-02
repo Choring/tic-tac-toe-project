@@ -1,11 +1,12 @@
 import { useState } from "react";
 
-type Player = {
+interface PlayerProps {
     initialName: string;
-    symbol: string;
+    symbol: "X" | "O";
+    isActive: boolean;
 }
 
-export default function Player({initialName, symbol}: Player) {
+export const Player: React.FC<PlayerProps> = ({initialName, symbol, isActive}) => {
     const [playerName, setPlayerName] = useState<string>(initialName);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     
@@ -24,7 +25,7 @@ export default function Player({initialName, symbol}: Player) {
     }
 
     return (
-        <li>
+        <li className={isActive ? "active" : undefined }>
             <span className="player">
                 {editablePlayerName}
                 <span className="player-symbol">{symbol}</span>
