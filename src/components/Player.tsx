@@ -6,7 +6,7 @@ interface PlayerProps {
     isActive: boolean;
 }
 
-export const Player: React.FC<PlayerProps> = ({initialName, symbol, isActive}) => {
+export const Player= ({initialName, symbol, isActive}: PlayerProps) => {
     const [playerName, setPlayerName] = useState<string>(initialName);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     

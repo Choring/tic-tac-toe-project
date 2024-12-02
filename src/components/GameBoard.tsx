@@ -16,7 +16,7 @@ const initialGameBoard: GameBoard = [
     [null, null, null],
 ];
 
-export const GameBoard: React.FC<GameBoardProps> = ({ onSelectSquare, turns }) => {
+export const GameBoard= ({ onSelectSquare, turns }: GameBoardProps) => {
     const gameBoard = initialGameBoard;
 
     for (const turn of turns ) {
