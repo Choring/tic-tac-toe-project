@@ -8,37 +8,46 @@ interface Turn {
   player: "X" | "O";
 }
 
+
+function deriveActivePlayer(gmaeTurns: Turn[]): "X" | "O"  {
+  let currentPlayer: "X" | "O" = "X";
+
+      if(gmaeTurns.length > 0 && gmaeTurns[0].player === "X") {
+        currentPlayer = "O";
+      } 
+
+  return currentPlayer;
+}
+
 function App() {
   const [gameTurn, setGameTurn] = useState<Turn[]>([]);
-  const [activePlayer, setActivePlayer] = useState<"X" | "O">("X");
+  // const [activePlayer, setActivePlayer] = useState<"X" | "O">("X");
 
-  // const handleSelectSquare = (rowIndex : number, colIndex: number): void => {
-  //   setActivePlayer((curActivePlayer) => curActivePlayer === "X" ? "O" : "X" );
-  //   setGameTurn(prevTurns => {
-  //     let currentPlayer = "X";
+  const activePlayer = deriveActivePlayer(gameTurn);
 
-  //     if(prevTurns.length > 0 && prevTurns[0].player === "X") {
-  //       currentPlayer = "O";
-  //     } 
-  //     const updatedTurns = [
-  //       { square: {row: rowIndex, col: colIndex} , 
-  //       player: currentPlayer} , 
-  //       ...prevTurns
-  //     ];
-  //     return updatedTurns;
-  //   });
-
-    
-  // };
-
-  const handleSelectSquare = (rowIndex: number, colIndex: number): void => {
-    setGameTurn((prevTurns) => [
-      { square: { row: rowIndex, col: colIndex }, player: activePlayer },
-      ...prevTurns,
-    ]);
-
-    setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
+  const handleSelectSquare = (rowIndex : number, colIndex: number): void => {
+    setGameTurn((prevTurns: Turn[]): Turn[] => {
+      const currentPlayer= deriveActivePlayer(prevTurns);
+  
+      const updatedTurns: Turn[] = [
+        {
+          square: { row: rowIndex, col: colIndex },
+          player: currentPlayer,
+        },
+        ...prevTurns,
+      ];
+      return updatedTurns;
+    });
   };
+
+  // const handleSelectSquare = (rowIndex: number, colIndex: number): void => {
+  //   setGameTurn((prevTurns) => [
+  //     { square: { row: rowIndex, col: colIndex }, player: activePlayer },
+  //     ...prevTurns,
+  //   ]);
+
+  //   setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
+  // };
 
   return <main>
     <div id="game-container">
