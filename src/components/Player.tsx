@@ -4,14 +4,19 @@ interface PlayerProps {
     initialName: string;
     symbol: "X" | "O";
     isActive: boolean;
+    onChangeName: (symbol:  "X" | "O", newName: string) => void;
 }
 
-export const Player= ({initialName, symbol, isActive}: PlayerProps) => {
+export const Player= ({initialName, symbol, isActive, onChangeName}: PlayerProps) => {
     const [playerName, setPlayerName] = useState<string>(initialName);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     
     const handleEditClick = () => {
-        setIsEditing((editing) => !editing);   
+        setIsEditing((editing) => !editing);
+
+        if(isEditing) {
+            onChangeName(symbol, playerName);
+        }
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
