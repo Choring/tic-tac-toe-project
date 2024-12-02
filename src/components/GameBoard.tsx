@@ -1,49 +1,25 @@
 
 
 type GameBoard = (null | "X" | "O")[][];
-interface Turn {
-    square: { row: number; col: number };
-    player: "X" | "O";
-}
 interface GameBoardProps {
-    turns: Turn[];
+    board: GameBoard;
     onSelectSquare: (rowIndex: number, colIndex: number) => void;
 }
 
-const initialGameBoard: GameBoard = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null],
-];
 
-export const GameBoard= ({ onSelectSquare, turns }: GameBoardProps) => {
-    const gameBoard = initialGameBoard;
-
-    for (const turn of turns ) {
-        const { square, player } = turn;
-        const { row, col } = square;
-        
-        gameBoard[row][col] = player;
-    }
-
-    // const [gameBoard, setGameBoard ] = useState<GameBoard>(initialGameBoard);
-
-    // const handleSelectSquare :(rowIndex: number, colIndex: number) => void  = (rowIndex, colIndex) => {
-    //     setGameBoard((prevGameBoard) => {
-    //         const updatedBoard: GameBoard = [...prevGameBoard.map(innerArray => [...innerArray])];
-    //         updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
-    //         return updatedBoard;
-    //     });
-
-    //     onSelectSquare(rowIndex, colIndex);
-    // };
+export const GameBoard= ({ onSelectSquare, board }: GameBoardProps) => {
 
     return <ol id="game-board">
-        {gameBoard.map((row, rowIndex) => <li key={rowIndex}>
+        {board.map((row, rowIndex) => <li key={rowIndex}>
             <ol>
                 {row.map((playerSymbol, colIndex) => 
                 <li key={colIndex}>
-                    <button onClick={() => onSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button>
+                    <button 
+                        onClick={() => onSelectSquare(rowIndex, colIndex)} 
+                        disabled={playerSymbol !== null ? true : false}
+                    >
+                        {playerSymbol}
+                    </button>
                 </li>)}
             </ol>
         </li>)}
