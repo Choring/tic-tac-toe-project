@@ -28,12 +28,7 @@ function deriveActivePlayer(gmaeTurns: Turn[]): "X" | "O"  {
 
 function App() {
   const [gameTurn, setGameTurn] = useState<Turn[]>([]);
-  // const [hasWinner, setHasWinner] = useState(false);
-  // const [activePlayer, setActivePlayer] = useState<"X" | "O">("X");
-
   const activePlayer = deriveActivePlayer(gameTurn);
-
-  
 
   const gameBoard = [...initialGameBoard.map(array => [...array])];
 
@@ -75,15 +70,6 @@ function App() {
       return updatedTurns;
     });
   };
-
-  // const handleSelectSquare = (rowIndex: number, colIndex: number): void => {
-  //   setGameTurn((prevTurns) => [
-  //     { square: { row: rowIndex, col: colIndex }, player: activePlayer },
-  //     ...prevTurns,
-  //   ]);
-
-  //   setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
-  // };
 
   function handleRestart() {
     setGameTurn([]);
