@@ -3,6 +3,7 @@ import {GameBoard} from "./components/GameBoard";
 import {Player} from "./components/Player";
 import { Log } from "./components/Log";
 import { WINNING_COMBINATIONS } from "./winning_combinations";
+import { GameOver } from "./components/GameOver";
 interface Turn {
   square: { row: number; col: number };
   player: "X" | "O";
@@ -34,7 +35,7 @@ function App() {
 
   
 
-  const gameBoard = initialGameBoard;
+  const gameBoard = [...initialGameBoard.map(array => [...array])];
 
   for (const turn of gameTurn ) {
       const { square, player } = turn;
@@ -57,6 +58,8 @@ function App() {
       winner = firstSquareSymbol;
     }
   };
+
+  const hasDraw = gameTurn.length === 9 && !winner;
 
   const handleSelectSquare = (rowIndex : number, colIndex: number): void => {
     setGameTurn((prevTurns: Turn[]): Turn[] => {
@@ -82,6 +85,10 @@ function App() {
   //   setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
   // };
 
+  function handleRestart() {
+    setGameTurn([]);
+  }
+
   return <main>
     <div id="game-container">
       <ol id="players" className="highlight-player">
@@ -96,7 +103,7 @@ function App() {
           isActive= {activePlayer === "O"} 
         />
       </ol>
-      {winner && <p>You Won, {winner}!</p>}
+      {(winner || hasDraw) && <GameOver winner={winner || null} onRestart={handleRestart} />}
       <GameBoard onSelectSquare={handleSelectSquare} board={gameBoard} />
     </div>
     <Log turns={gameTurn} />
